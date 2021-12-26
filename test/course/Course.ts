@@ -2,9 +2,9 @@ import { artifacts, ethers, waffle } from "hardhat";
 import type { Artifact } from "hardhat/types";
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 
-import type { Greeter } from "../../src/types/Greeter";
 import { Signers } from "../types";
-import { shouldBehaveLikeGreeter } from "./Greeter.behavior";
+import { shouldBehaveLikeCourse } from "./Course.behavior";
+import { Course } from "../../src/types/Course";
 
 describe("Unit tests", function () {
   before(async function () {
@@ -14,13 +14,13 @@ describe("Unit tests", function () {
     this.signers.admin = signers[0];
   });
 
-  describe("Greeter", function () {
+  describe("Course", function () {
     beforeEach(async function () {
-      const greeting: string = "Hello, world!";
-      const greeterArtifact: Artifact = await artifacts.readArtifact("Greeter");
-      this.greeter = <Greeter>await waffle.deployContract(this.signers.admin, greeterArtifact, [greeting]);
+      const courseArtifact: Artifact = await artifacts.readArtifact("Course");
+      this.course = <Course>await waffle.deployContract(this.signers.admin, courseArtifact, []);
+      await this.course.initialize("ipfs://coursecid", this.signers.admin.address);
     });
 
-    shouldBehaveLikeGreeter();
+    shouldBehaveLikeCourse();
   });
 });

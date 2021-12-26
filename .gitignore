@@ -27,9 +27,16 @@ yarn-error.log*
 # types
 src/types/*
 !src/types/common.ts
-!src/types/Greeter.ts
+!src/types/Bootcamp.ts
+!src/types/Course.ts
+!src/types/Review.ts
+!src/types/OpenCred.ts
 
 # factories
 !src/types/factories
 src/types/factories/*
-!src/types/factories/Greeter__factory.ts
+!src/types/factories/Bootcamp__factory.ts
+!src/types/factories/Course__factory.ts
+!src/types/factories/Review__factory.ts
+!src/types/factories/OpenCred__factory.ts
+.env
