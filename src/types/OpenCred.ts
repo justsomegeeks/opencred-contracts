@@ -189,7 +189,7 @@ export interface OpenCred extends BaseContract {
 
     graduate(
       graduatesURI: string,
-      proof: BytesLike,
+      root: BytesLike,
       courseId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -239,7 +239,7 @@ export interface OpenCred extends BaseContract {
 
   graduate(
     graduatesURI: string,
-    proof: BytesLike,
+    root: BytesLike,
     courseId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -286,7 +286,7 @@ export interface OpenCred extends BaseContract {
 
     graduate(
       graduatesURI: string,
-      proof: BytesLike,
+      root: BytesLike,
       courseId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -390,7 +390,7 @@ export interface OpenCred extends BaseContract {
 
     graduate(
       graduatesURI: string,
-      proof: BytesLike,
+      root: BytesLike,
       courseId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -441,7 +441,7 @@ export interface OpenCred extends BaseContract {
 
     graduate(
       graduatesURI: string,
-      proof: BytesLike,
+      root: BytesLike,
       courseId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

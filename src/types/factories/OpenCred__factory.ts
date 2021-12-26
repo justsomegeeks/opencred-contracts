@@ -184,7 +184,7 @@ const _abi = [
       },
       {
         internalType: "bytes32",
-        name: "proof",
+        name: "root",
         type: "bytes32",
       },
       {

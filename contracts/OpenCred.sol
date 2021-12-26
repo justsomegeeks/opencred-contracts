@@ -38,14 +38,14 @@ contract OpenCred is Ownable {
 
     function graduate(
         string memory graduatesURI,
-        bytes32 proof,
+        bytes32 root,
         uint256 courseId
     ) external onlyOwner {
         // TODO: Is it necessary to check courseId?
         // require(courseId <= courseCount, "Course doesn't exist");
 
-        graduations[courseId][proof] = true;
-        emit Graduate(address(this), courseId, proof, graduatesURI);
+        graduations[courseId][root] = true;
+        emit Graduate(address(this), courseId, root, graduatesURI);
     }
 
     function isCertified(
