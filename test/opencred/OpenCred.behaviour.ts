@@ -6,13 +6,16 @@ export const OPENCRED_CONSTANTS = {
   bootcampURI: "ipfs://bootcampuri",
   courseURI: "ipfs://courseuri",
   graduatesURI: "ipfs://graduates",
+  reviewURI: "ipfs://review",
 };
 
 export function shouldBehaveLikeOpenCred(): void {
   // TODO: How to test emitted event from constructor?
 
-  it("should return correct uri", async function () {
-    expect(await this.opencred.bootcampURI()).to.equal(OPENCRED_CONSTANTS.bootcampURI);
+  describe("Bootcamp", function () {
+    it("should return correct bootcamp uri", async function () {
+      expect(await this.opencred.bootcampURI()).to.equal(OPENCRED_CONSTANTS.bootcampURI);
+    });
   });
 
   describe("Course", function () {
@@ -20,7 +23,7 @@ export function shouldBehaveLikeOpenCred(): void {
       await this.opencred.addCourse(OPENCRED_CONSTANTS.courseURI);
       this.courseId = await this.opencred.courseCount();
       this.merkleTree = new MerkleTree(this.students, keccak256, { hashLeaves: true, sortPairs: true });
-      this.leaf = keccak256(this.students[4]);
+      this.leaf = keccak256(this.signers.certifiedStudent.address);
       this.root = this.merkleTree.getHexRoot();
     });
     it("should emit CourseCreated event with args", async function () {
@@ -52,6 +55,36 @@ export function shouldBehaveLikeOpenCred(): void {
       expect(
         await this.opencred.isCertified(this.courseId, this.merkleTree.getHexProof(this.leaf), invalidLeaf, this.root),
       ).to.be.false;
+    });
+  });
+  describe("Review", function () {
+    beforeEach(async function () {
+      await this.opencred.addCourse(OPENCRED_CONSTANTS.courseURI);
+      this.courseId = await this.opencred.courseCount();
+      this.merkleTree = new MerkleTree(this.students, keccak256, { hashLeaves: true, sortPairs: true });
+      this.leaf = keccak256(this.signers.certifiedStudent.address);
+      this.root = this.merkleTree.getHexRoot();
+      await this.opencred.graduate(OPENCRED_CONSTANTS.graduatesURI, this.root, this.courseId);
+    });
+
+    it("should fail if uncertified student tries to write a review", async function () {
+      await expect(
+        this.opencred.review(
+          this.courseId,
+          OPENCRED_CONSTANTS.reviewURI,
+          this.merkleTree.getHexProof(keccak256(this.signers.admin.address)),
+          this.root,
+        ),
+      ).to.be.revertedWith("Not Certified");
+    });
+    it("should allow a certified student to write a review", async function () {
+      await expect(
+        this.opencred
+          .connect(this.signers.certifiedStudent)
+          .review(this.courseId, OPENCRED_CONSTANTS.reviewURI, this.merkleTree.getHexProof(this.leaf), this.root),
+      )
+        .to.emit(this.opencred, "Review")
+        .withArgs(this.opencred.address, this.signers.certifiedStudent.address, OPENCRED_CONSTANTS.reviewURI);
     });
   });
 }

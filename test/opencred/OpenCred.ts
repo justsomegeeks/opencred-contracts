@@ -19,6 +19,7 @@ describe("Unit tests", function () {
     const signers: SignerWithAddress[] = await ethers.getSigners();
     this.signers.admin = signers[0];
     this.students = (await ethers.provider.listAccounts()).slice(1);
+    this.signers.certifiedStudent = signers[5];
   });
 
   describe("OpenCred", function () {

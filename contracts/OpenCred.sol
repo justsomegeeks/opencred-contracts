@@ -1,6 +1,5 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
-import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -70,7 +69,7 @@ contract OpenCred is Ownable {
         bytes32[] calldata proof,
         bytes32 root
     ) external {
-        require(isCertified(courseId, proof, keccak256(abi.encode(msg.sender)), root), "Not Certified");
+        require(isCertified(courseId, proof, keccak256(abi.encodePacked(msg.sender)), root), "Not Certified");
 
         emit Review(address(this), msg.sender, reviewURI);
     }
