@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { MerkleTree } from "merkletreejs";
 import keccak256 from "keccak256";
 
-export const OPENCRED_CONSTANTS = {
+const OPENCRED_CONSTANTS = {
   bootcampURI: "ipfs://bootcampuri",
   courseURI: "ipfs://courseuri",
   graduatesURI: "ipfs://graduates",
