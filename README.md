@@ -13,11 +13,11 @@ Adding rich metadata to your URI's
 	Bootcamp 
 	</summary>
 
-```
+```json
 {
   "name": "",
   "about": "",
-  "location": "",
+  "location": ""
 }
 ```
 
@@ -27,16 +27,15 @@ Adding rich metadata to your URI's
 	Course
 	</summary>
 
-```
+```json
 {
   "name": "",
   "cost": "",
   "duration": "",
-  "locations": "",
+  "location": "",
   "description": "",
-  "subjects": "",
+  "subjects": ""
 }
-
 ```
 
 </details>
@@ -45,7 +44,7 @@ Adding rich metadata to your URI's
 	Graduation
 	</summary>
 
-```
+```json
 {
   "date": "",
   "graduates": [
@@ -67,8 +66,7 @@ Adding rich metadata to your URI's
 	Review
 	</summary>
 
-```
-
+```json
 {
   "reviewer": "",
   "email": "",
@@ -76,9 +74,8 @@ Adding rich metadata to your URI's
   "body": "",
   "rating": "",
   "batch": "",
-  "courseId": "",
+  "courseId": ""
 }
-
 ```
 
 </details>
