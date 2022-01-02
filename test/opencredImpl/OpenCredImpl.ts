@@ -3,8 +3,8 @@ import { artifacts, ethers, waffle } from "hardhat";
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 
 import { Signers } from "../types";
-import { shouldBehaveLikeOpenCred } from "./OpenCred.behaviour";
-import { OpenCred } from "../../src/types/OpenCred";
+import { shouldBehaveLikeOpenCredImpl } from "./OpenCredImpl.behaviour";
+import { OpenCredImpl } from "../../src/types/OpenCredImpl";
 
 describe("Unit tests", function () {
   before(async function () {
@@ -16,17 +16,13 @@ describe("Unit tests", function () {
     this.signers.certifiedStudent = signers[5];
   });
 
-  describe("OpenCred", function () {
+  describe("OpenCredImpl", function () {
     beforeEach(async function () {
-      const opencredArtifact = await artifacts.readArtifact("OpenCred");
-      this.opencred = <OpenCred>(
-        await waffle.deployContract(this.signers.admin, opencredArtifact, [
-          "ipfs://bootcampuri",
-          this.signers.admin.address,
-        ])
-      );
+      const opencredImplArtifact = await artifacts.readArtifact("OpenCredImpl");
+      this.opencredImpl = <OpenCredImpl>await waffle.deployContract(this.signers.admin, opencredImplArtifact, []);
+      await this.opencredImpl.initialize(this.signers.admin.address, "ipfs://bootcampuri");
     });
 
-    shouldBehaveLikeOpenCred();
+    shouldBehaveLikeOpenCredImpl();
   });
 });

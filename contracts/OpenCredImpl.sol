@@ -1,21 +1,21 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
+
+import "hardhat/console.sol";
+
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 
-contract OpenCred is Ownable {
+contract OpenCredImpl is Ownable, Initializable {
     /*///////////////////////////////////////////////////////////////
                          BOOTCAMP LOGIC
     //////////////////////////////////////////////////////////////*/
-
     string public bootcampURI;
 
-    event BootcampCreated(address indexed owner, address indexed bootcamp, string bootcampURI);
-
-    constructor(string memory _bootcampURI, address _owner) {
+    function initialize(address _owner, string memory _bootcampURI) external initializer {
         bootcampURI = _bootcampURI;
         _transferOwnership(_owner);
-        emit BootcampCreated(_owner, address(this), bootcampURI);
     }
 
     /*///////////////////////////////////////////////////////////////
