@@ -14,12 +14,12 @@ describe("Unit tests", function () {
     this.signers.admin = signers[0];
   });
 
-  describe("OpenCredCloneFactory", function () {
+  describe("OpenCredFactory", function () {
     beforeEach(async function () {
-      const opencredFactory = await artifacts.readArtifact("OpenCredFactory");
+      const opencredFactoryArtifcat = await artifacts.readArtifact("OpenCredFactory");
       const opencredImplArtifact = await artifacts.readArtifact("OpenCredImpl");
       this.opencredFactory = <OpenCredFactory>(
-        await waffle.deployContract(this.signers.admin, opencredFactory, [this.signers.admin.address])
+        await waffle.deployContract(this.signers.admin, opencredFactoryArtifcat, [this.signers.admin.address])
       );
       this.opencredInitializable = <OpenCredInitializable>(
         await waffle.deployContract(this.signers.admin, opencredImplArtifact, [])
