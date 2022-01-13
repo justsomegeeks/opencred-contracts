@@ -31,6 +31,8 @@ src/types/*
 !src/types/Course.ts
 !src/types/Review.ts
 !src/types/OpenCred.ts
+!src/types/OpenCredFactory.ts
+!src/types/OpenCredImpl.ts
 
 # factories
 !src/types/factories
@@ -39,4 +41,6 @@ src/types/factories/*
 !src/types/factories/Course__factory.ts
 !src/types/factories/Review__factory.ts
 !src/types/factories/OpenCred__factory.ts
+!src/types/factories/OpenCredFactory__factory.ts
+!src/types/factories/OpenCredImpl__factory.ts
 .env

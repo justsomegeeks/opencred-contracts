@@ -17,13 +17,14 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface OpenCredInterface extends utils.Interface {
+export interface OpenCredImplInterface extends utils.Interface {
   functions: {
     "addCourse(string)": FunctionFragment;
     "bootcampURI()": FunctionFragment;
     "courseCount()": FunctionFragment;
     "graduate(string,bytes32,uint256)": FunctionFragment;
     "graduations(uint256,bytes32)": FunctionFragment;
+    "initialize(address,string)": FunctionFragment;
     "isCertified(uint256,bytes32[],bytes32,bytes32)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -47,6 +48,10 @@ export interface OpenCredInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "graduations",
     values: [BigNumberish, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values: [string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "isCertified",
@@ -80,6 +85,7 @@ export interface OpenCredInterface extends utils.Interface {
     functionFragment: "graduations",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isCertified",
     data: BytesLike
@@ -96,26 +102,17 @@ export interface OpenCredInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "BootcampCreated(address,address,string)": EventFragment;
     "CourseCreated(address,uint256,string)": EventFragment;
     "Graduate(address,uint256,bytes32,string)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Review(address,address,string)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "BootcampCreated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CourseCreated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Graduate"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Review"): EventFragment;
 }
-
-export type BootcampCreatedEvent = TypedEvent<
-  [string, string, string],
-  { owner: string; bootcamp: string; bootcampURI: string }
->;
-
-export type BootcampCreatedEventFilter = TypedEventFilter<BootcampCreatedEvent>;
 
 export type CourseCreatedEvent = TypedEvent<
   [string, BigNumber, string],
@@ -151,12 +148,12 @@ export type ReviewEvent = TypedEvent<
 
 export type ReviewEventFilter = TypedEventFilter<ReviewEvent>;
 
-export interface OpenCred extends BaseContract {
+export interface OpenCredImpl extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: OpenCredInterface;
+  interface: OpenCredImplInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -199,6 +196,12 @@ export interface OpenCred extends BaseContract {
       arg1: BytesLike,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    initialize(
+      _owner: string,
+      _bootcampURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     isCertified(
       courseId: BigNumberish,
@@ -250,6 +253,12 @@ export interface OpenCred extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  initialize(
+    _owner: string,
+    _bootcampURI: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   isCertified(
     courseId: BigNumberish,
     proof: BytesLike[],
@@ -297,6 +306,12 @@ export interface OpenCred extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    initialize(
+      _owner: string,
+      _bootcampURI: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     isCertified(
       courseId: BigNumberish,
       proof: BytesLike[],
@@ -324,17 +339,6 @@ export interface OpenCred extends BaseContract {
   };
 
   filters: {
-    "BootcampCreated(address,address,string)"(
-      owner?: string | null,
-      bootcamp?: string | null,
-      bootcampURI?: null
-    ): BootcampCreatedEventFilter;
-    BootcampCreated(
-      owner?: string | null,
-      bootcamp?: string | null,
-      bootcampURI?: null
-    ): BootcampCreatedEventFilter;
-
     "CourseCreated(address,uint256,string)"(
       bootcamp?: string | null,
       courseId?: null,
@@ -403,6 +407,12 @@ export interface OpenCred extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    initialize(
+      _owner: string,
+      _bootcampURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     isCertified(
       courseId: BigNumberish,
       proof: BytesLike[],
@@ -452,6 +462,12 @@ export interface OpenCred extends BaseContract {
       arg0: BigNumberish,
       arg1: BytesLike,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    initialize(
+      _owner: string,
+      _bootcampURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     isCertified(
