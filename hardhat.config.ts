@@ -1,3 +1,4 @@
+import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
@@ -21,6 +22,7 @@ const chainIds = {
   mainnet: 1,
   rinkeby: 4,
   ropsten: 3,
+  fuji: 43113,
 };
 
 // Ensure that we have all the environment variables we need.
@@ -35,7 +37,13 @@ if (!infuraApiKey) {
 }
 
 function getChainConfig(network: keyof typeof chainIds): NetworkUserConfig {
-  const url: string = "https://" + network + ".infura.io/v3/" + infuraApiKey;
+  let url: string;
+  if (network === "fuji") {
+    url = "https://api.avax-test.network/ext/bc/C/rpc";
+  } else {
+    url = "https://" + network + ".infura.io/v3/" + infuraApiKey;
+  }
+
   return {
     accounts: {
       count: 10,
@@ -66,6 +74,7 @@ const config: HardhatUserConfig = {
     kovan: getChainConfig("kovan"),
     rinkeby: getChainConfig("rinkeby"),
     ropsten: getChainConfig("ropsten"),
+    fuji: getChainConfig("fuji"),
   },
   paths: {
     artifacts: "./artifacts",
@@ -74,7 +83,7 @@ const config: HardhatUserConfig = {
     tests: "./test",
   },
   solidity: {
-    version: "0.8.9",
+    version: "0.8.7",
     settings: {
       metadata: {
         // Not including the metadata hash
@@ -89,6 +98,14 @@ const config: HardhatUserConfig = {
       },
     },
   },
+
+  etherscan: {
+    apiKey: {
+      avalancheFujiTestnet: process.env.SNOWTRACE_API_KEY,
+      rinkeby: process.env.ETHERSCAN_KEY,
+    },
+  },
+
   typechain: {
     outDir: "src/types",
     target: "ethers-v5",

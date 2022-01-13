@@ -90,7 +90,7 @@ export interface OpenCredFactoryInterface extends utils.Interface {
 
 export type BootcampCreatedEvent = TypedEvent<
   [string, string, string],
-  { _owner: string; bootcamp: string; _bootcampURI: string }
+  { owner: string; bootcamp: string; bootcampURI: string }
 >;
 
 export type BootcampCreatedEventFilter = TypedEventFilter<BootcampCreatedEvent>;
@@ -223,14 +223,14 @@ export interface OpenCredFactory extends BaseContract {
 
   filters: {
     "BootcampCreated(address,address,string)"(
-      _owner?: string | null,
+      owner?: string | null,
       bootcamp?: string | null,
-      _bootcampURI?: null
+      bootcampURI?: null
     ): BootcampCreatedEventFilter;
     BootcampCreated(
-      _owner?: string | null,
+      owner?: string | null,
       bootcamp?: string | null,
-      _bootcampURI?: null
+      bootcampURI?: null
     ): BootcampCreatedEventFilter;
 
     "OwnershipTransferred(address,address)"(

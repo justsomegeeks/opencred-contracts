@@ -12,7 +12,7 @@ contract OpenCredFactory is Ownable {
         _transferOwnership(_owner);
     }
 
-    event BootcampCreated(address indexed _owner, address indexed bootcamp, string _bootcampURI);
+    event BootcampCreated(address indexed owner, address indexed bootcamp, string bootcampURI);
 
     function setImplementationAddress(address _opencredImpl) external onlyOwner {
         opencredImpl = _opencredImpl;
