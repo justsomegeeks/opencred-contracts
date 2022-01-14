@@ -97,7 +97,12 @@ export function shouldBehaveLikeOpenCredImpl(): void {
           .review(this.courseId, OPENCRED_CONSTANTS.reviewURI, this.merkleTree.getHexProof(this.leaf), this.root),
       )
         .to.emit(this.opencredImpl, "Review")
-        .withArgs(this.opencredImpl.address, this.signers.certifiedStudent.address, OPENCRED_CONSTANTS.reviewURI);
+        .withArgs(
+          this.opencredImpl.address,
+          this.signers.certifiedStudent.address,
+          this.courseId,
+          OPENCRED_CONSTANTS.reviewURI,
+        );
     });
   });
 }

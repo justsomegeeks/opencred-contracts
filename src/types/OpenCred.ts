@@ -100,7 +100,7 @@ export interface OpenCredInterface extends utils.Interface {
     "CourseCreated(address,uint256,string)": EventFragment;
     "Graduate(address,uint256,bytes32,string)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
-    "Review(address,address,string)": EventFragment;
+    "Review(address,address,uint256,string)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "BootcampCreated"): EventFragment;
@@ -145,8 +145,8 @@ export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
 export type ReviewEvent = TypedEvent<
-  [string, string, string],
-  { bootcamp: string; reviewer: string; reviewURI: string }
+  [string, string, BigNumber, string],
+  { bootcamp: string; reviewer: string; courseId: BigNumber; reviewURI: string }
 >;
 
 export type ReviewEventFilter = TypedEventFilter<ReviewEvent>;
@@ -337,24 +337,24 @@ export interface OpenCred extends BaseContract {
 
     "CourseCreated(address,uint256,string)"(
       bootcamp?: string | null,
-      courseId?: null,
+      courseId?: BigNumberish | null,
       courseURI?: null
     ): CourseCreatedEventFilter;
     CourseCreated(
       bootcamp?: string | null,
-      courseId?: null,
+      courseId?: BigNumberish | null,
       courseURI?: null
     ): CourseCreatedEventFilter;
 
     "Graduate(address,uint256,bytes32,string)"(
       bootcamp?: string | null,
-      courseId?: null,
+      courseId?: BigNumberish | null,
       merkleProof?: null,
       graduatesURI?: null
     ): GraduateEventFilter;
     Graduate(
       bootcamp?: string | null,
-      courseId?: null,
+      courseId?: BigNumberish | null,
       merkleProof?: null,
       graduatesURI?: null
     ): GraduateEventFilter;
@@ -368,14 +368,16 @@ export interface OpenCred extends BaseContract {
       newOwner?: string | null
     ): OwnershipTransferredEventFilter;
 
-    "Review(address,address,string)"(
+    "Review(address,address,uint256,string)"(
       bootcamp?: string | null,
       reviewer?: string | null,
+      courseId?: BigNumberish | null,
       reviewURI?: null
     ): ReviewEventFilter;
     Review(
       bootcamp?: string | null,
       reviewer?: string | null,
+      courseId?: BigNumberish | null,
       reviewURI?: null
     ): ReviewEventFilter;
   };
