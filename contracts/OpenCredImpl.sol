@@ -26,8 +26,8 @@ contract OpenCredImpl is Ownable, Initializable {
     mapping(uint256 => mapping(bytes32 => bool)) public graduations;
     uint256 public courseCount;
 
-    event CourseCreated(address indexed bootcamp, uint256 courseId, string courseURI);
-    event Graduate(address indexed bootcamp, uint256 courseId, bytes32 merkleProof, string graduatesURI);
+    event CourseCreated(address indexed bootcamp, uint256 indexed courseId, string courseURI);
+    event Graduate(address indexed bootcamp, uint256 indexed courseId, bytes32 merkleProof, string graduatesURI);
 
     function addCourse(string memory courseURI) external onlyOwner {
         unchecked {
@@ -62,7 +62,8 @@ contract OpenCredImpl is Ownable, Initializable {
                          REVIEW LOGIC
     //////////////////////////////////////////////////////////////*/
 
-    event Review(address indexed bootcamp, address indexed reviewer, string reviewURI);
+    // TODO emit courseId too
+    event Review(address indexed bootcamp, address indexed reviewer, uint256 indexed courseId, string reviewURI);
 
     function review(
         uint256 courseId,
@@ -72,6 +73,6 @@ contract OpenCredImpl is Ownable, Initializable {
     ) external {
         require(isCertified(courseId, proof, keccak256(abi.encodePacked(msg.sender)), root), "Not Certified");
 
-        emit Review(address(this), msg.sender, reviewURI);
+        emit Review(address(this), msg.sender, courseId, reviewURI);
     }
 }
