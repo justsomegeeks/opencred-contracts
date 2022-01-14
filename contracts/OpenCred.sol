@@ -27,7 +27,7 @@ contract OpenCred is Ownable {
     uint256 public courseCount;
 
     event CourseCreated(address indexed bootcamp, uint256 indexed courseId, string courseURI);
-    event Graduate(address indexed bootcamp, uint256 indexed courseId, bytes32 merkleProof, string graduatesURI);
+    event Graduate(address indexed bootcamp, uint256 indexed courseId, bytes32 merkleRoot, string graduatesURI);
 
     function addCourse(string memory courseURI) external onlyOwner {
         unchecked {

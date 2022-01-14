@@ -49,7 +49,7 @@ const _abi = [
       {
         indexed: false,
         internalType: "bytes32",
-        name: "merkleProof",
+        name: "merkleRoot",
         type: "bytes32",
       },
       {

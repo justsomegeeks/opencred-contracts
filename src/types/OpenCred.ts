@@ -129,7 +129,7 @@ export type GraduateEvent = TypedEvent<
   {
     bootcamp: string;
     courseId: BigNumber;
-    merkleProof: string;
+    merkleRoot: string;
     graduatesURI: string;
   }
 >;
@@ -349,13 +349,13 @@ export interface OpenCred extends BaseContract {
     "Graduate(address,uint256,bytes32,string)"(
       bootcamp?: string | null,
       courseId?: BigNumberish | null,
-      merkleProof?: null,
+      merkleRoot?: null,
       graduatesURI?: null
     ): GraduateEventFilter;
     Graduate(
       bootcamp?: string | null,
       courseId?: BigNumberish | null,
-      merkleProof?: null,
+      merkleRoot?: null,
       graduatesURI?: null
     ): GraduateEventFilter;
 
