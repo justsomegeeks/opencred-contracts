@@ -2,10 +2,12 @@ import "@nomiclabs/hardhat-ethers";
 import { ethers } from "hardhat";
 import { OpenCredFactory } from "../src/types/OpenCredFactory";
 
-const opencredFactoryAddress = "0xd86EB75611a6155687a2c9C9E7a876495654718B";
+// hardhat node first contract creation address  = 0xE3C6158a2F04f08F39f99FAC450AC91aF5b5D7DD
+const opencredFactoryAddress = "0xE3C6158a2F04f08F39f99FAC450AC91aF5b5D7DD";
 
 async function main() {
   const deployer = (await ethers.getSigners())[2];
+
   const opencredFactoryContract: OpenCredFactory = <OpenCredFactory>(
     await ethers.getContractAt("OpenCredFactory", opencredFactoryAddress, deployer)
   );
@@ -14,13 +16,10 @@ async function main() {
       deployer.address,
       `QmXFb3YhKzL7JF29JwcNUcdwpuKwtgeRQ3N1SeM5LNpRJd`,
     );
-    await cloneBootcamp.wait();
-    await sleep(4000);
+    const reciept = await cloneBootcamp.wait();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    console.log(reciept.events?.[2].args);
   }
-}
-
-function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 main()
