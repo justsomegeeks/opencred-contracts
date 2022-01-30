@@ -102,10 +102,10 @@ export interface OpenCredImplInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "CourseCreated(address,uint256,string)": EventFragment;
-    "Graduate(address,uint256,bytes32,string)": EventFragment;
+    "CourseCreated(uint256,string)": EventFragment;
+    "Graduate(uint256,bytes32,string)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
-    "Review(address,address,uint256,string)": EventFragment;
+    "Review(address,uint256,string)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "CourseCreated"): EventFragment;
@@ -115,20 +115,15 @@ export interface OpenCredImplInterface extends utils.Interface {
 }
 
 export type CourseCreatedEvent = TypedEvent<
-  [string, BigNumber, string],
-  { bootcamp: string; courseId: BigNumber; courseURI: string }
+  [BigNumber, string],
+  { courseId: BigNumber; courseURI: string }
 >;
 
 export type CourseCreatedEventFilter = TypedEventFilter<CourseCreatedEvent>;
 
 export type GraduateEvent = TypedEvent<
-  [string, BigNumber, string, string],
-  {
-    bootcamp: string;
-    courseId: BigNumber;
-    merkleRoot: string;
-    graduatesURI: string;
-  }
+  [BigNumber, string, string],
+  { courseId: BigNumber; merkleRoot: string; graduatesURI: string }
 >;
 
 export type GraduateEventFilter = TypedEventFilter<GraduateEvent>;
@@ -142,8 +137,8 @@ export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
 export type ReviewEvent = TypedEvent<
-  [string, string, BigNumber, string],
-  { bootcamp: string; reviewer: string; courseId: BigNumber; reviewURI: string }
+  [string, BigNumber, string],
+  { reviewer: string; courseId: BigNumber; reviewURI: string }
 >;
 
 export type ReviewEventFilter = TypedEventFilter<ReviewEvent>;
@@ -339,25 +334,21 @@ export interface OpenCredImpl extends BaseContract {
   };
 
   filters: {
-    "CourseCreated(address,uint256,string)"(
-      bootcamp?: string | null,
+    "CourseCreated(uint256,string)"(
       courseId?: BigNumberish | null,
       courseURI?: null
     ): CourseCreatedEventFilter;
     CourseCreated(
-      bootcamp?: string | null,
       courseId?: BigNumberish | null,
       courseURI?: null
     ): CourseCreatedEventFilter;
 
-    "Graduate(address,uint256,bytes32,string)"(
-      bootcamp?: string | null,
+    "Graduate(uint256,bytes32,string)"(
       courseId?: BigNumberish | null,
       merkleRoot?: null,
       graduatesURI?: null
     ): GraduateEventFilter;
     Graduate(
-      bootcamp?: string | null,
       courseId?: BigNumberish | null,
       merkleRoot?: null,
       graduatesURI?: null
@@ -372,14 +363,12 @@ export interface OpenCredImpl extends BaseContract {
       newOwner?: string | null
     ): OwnershipTransferredEventFilter;
 
-    "Review(address,address,uint256,string)"(
-      bootcamp?: string | null,
+    "Review(address,uint256,string)"(
       reviewer?: string | null,
       courseId?: BigNumberish | null,
       reviewURI?: null
     ): ReviewEventFilter;
     Review(
-      bootcamp?: string | null,
       reviewer?: string | null,
       courseId?: BigNumberish | null,
       reviewURI?: null

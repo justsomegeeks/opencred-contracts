@@ -33,7 +33,7 @@ export function shouldBehaveLikeOpenCred(): void {
       const courseCount = await this.opencred.courseCount();
       await expect(this.opencred.addCourse(OPENCRED_CONSTANTS.courseURI))
         .to.emit(this.opencred, "CourseCreated")
-        .withArgs(this.opencred.address, courseCount.add(1), OPENCRED_CONSTANTS.courseURI);
+        .withArgs(courseCount.add(1), OPENCRED_CONSTANTS.courseURI);
     });
 
     it("should update course count", async function () {
@@ -44,7 +44,7 @@ export function shouldBehaveLikeOpenCred(): void {
     it("should graduate students", async function () {
       await expect(this.opencred.graduate(OPENCRED_CONSTANTS.graduatesURI, this.root, this.courseId))
         .to.emit(this.opencred, "Graduate")
-        .withArgs(this.opencred.address, this.courseId, this.root, OPENCRED_CONSTANTS.graduatesURI);
+        .withArgs(this.courseId, this.root, OPENCRED_CONSTANTS.graduatesURI);
     });
     it("should return true if iscertified is called with valid leaf", async function () {
       await this.opencred.graduate(OPENCRED_CONSTANTS.graduatesURI, this.root, this.courseId);
@@ -87,12 +87,7 @@ export function shouldBehaveLikeOpenCred(): void {
           .review(this.courseId, OPENCRED_CONSTANTS.reviewURI, this.merkleTree.getHexProof(this.leaf), this.root),
       )
         .to.emit(this.opencred, "Review")
-        .withArgs(
-          this.opencred.address,
-          this.signers.certifiedStudent.address,
-          this.courseId,
-          OPENCRED_CONSTANTS.reviewURI,
-        );
+        .withArgs(this.signers.certifiedStudent.address, this.courseId, OPENCRED_CONSTANTS.reviewURI);
     });
   });
 }
