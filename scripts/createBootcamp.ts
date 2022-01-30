@@ -18,8 +18,16 @@ async function main() {
     );
     const reciept = await cloneBootcamp.wait();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    console.log(reciept.events?.[2].args);
+    console.log(reciept.events?.[1].args);
+
+    // When calling createBootcamp instead of cloneBootcamp console log index 2 event
+    // console.log(reciept.events?.[2].args);
+    await sleep(2000);
   }
+}
+
+async function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 main()
